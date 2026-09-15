@@ -19,5 +19,9 @@ Là một game dev tự do (tôi là người đứng sau tài khoản *[Erza Lo
 | 5 | **7-Zip** | Nén và giải nén file dự án | GNU LGPL |
 
 ---
-License
 This repository is licensed with the [MIT](https://github.com/Tenkho123/pmnm-hocphan/edit/main/LICENSE) license.
+
+## Giấy phép
+Mã nguồn trong kho này được phát hành
+theo [Giấy phép MIT](LICENSE).
+SPDX-License-Identifier: MIT
