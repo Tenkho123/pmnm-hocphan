@@ -1,5 +1,8 @@
 # BÀI TẬP 1.2: PHÂN TÍCH DỰ ÁN RẼ NHÁNH TỪ OPENOFFICE SANG LIBREOFFICE
 
+## 1. Mở đầu
+Trong lịch sử phát triển phần mềm mã nguồn mở, thương vụ Oracle mua lại Sun Microsystems vào năm 2010 là một cột mốc quan trọng. Sự kiện này không chỉ tác động mạnh đến Java hay MySQL, mà còn dẫn đến cuộc xung đột gay gắt giữa cộng đồng phát triển bộ ứng dụng văn phòng OpenOffice.org và đơn vị chủ quản mới. Mâu thuẫn này đã tạo ra một trong những bản rẽ nhánh (fork) thành công nhất lịch sử FOSS: sự ra đời của LibreOffice.
+
 ## 2. Bối cảnh và nguyên nhân mâu thuẫn
 Trước năm 2010, OpenOffice.org là bộ công cụ văn phòng mã nguồn mở phổ biến nhất, nhận tài trợ chính từ Sun Microsystems. Dù mang danh mã nguồn mở, mô hình quản trị của Sun vẫn mang tính tập quyền cao. Sun nắm giữ toàn bộ bản quyền code và yêu cầu các nhà đóng góp cá nhân (contributor) phải ký Thỏa thuận chuyển giao quyền sở hữu trí tuệ (JCA).
 
