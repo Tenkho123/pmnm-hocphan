@@ -17,3 +17,7 @@ Là một game dev tự do (tôi là người đứng sau tài khoản *[Erza Lo
 | 3 | **GIMP** | Chỉnh sửa texture và đồ họa 2D | GNU GPL v3 |
 | 4 | **OBS Studio** | Quay màn hình, record gameplay | GNU GPL v2 |
 | 5 | **7-Zip** | Nén và giải nén file dự án | GNU LGPL |
+
+---
+License
+This repository is licensed with the [MIT](https://github.com/Tenkho123/pmnm-hocphan/edit/main/LICENSE) license.
