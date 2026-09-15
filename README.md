@@ -18,9 +18,6 @@ Là một game dev tự do (tôi là người đứng sau tài khoản *[Erza Lo
 | 4 | **OBS Studio** | Quay màn hình, record gameplay | GNU GPL v2 |
 | 5 | **7-Zip** | Nén và giải nén file dự án | GNU LGPL |
 
----
-This repository is licensed with the [MIT](https://github.com/Tenkho123/pmnm-hocphan/edit/main/LICENSE) license.
-
 ## Giấy phép
 Mã nguồn trong kho này được phát hành
 theo [Giấy phép MIT](LICENSE).
