@@ -1,0 +1,38 @@
+from flask import Flask
+from werkzeug.routing import BaseConverter
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "Bonzour"
+
+@app.route('/calc')
+def calculate():
+    a = 12
+    b = 3
+    return str(a + b)
+
+@app.route('/user/<username>')
+def user_profile(username):
+    return f"hello mr {username}"
+
+@app.route('/sqr/<int:num>')
+def calc(num):
+    return f"bình phương của {num} là " + str(num ** 2)
+
+class IntToList(BaseConverter):
+    regex = r'\d+(?:,\d+)*'
+
+    def to_python(self, value):
+        return [int(x) for x in value.split(',')]
+    
+app.url_map.converters["list"] = IntToList
+
+@app.route('/sum/<list:num>')
+def sum_func(num):
+    return f"Sum của list {num} là {sum(num)}"
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port = 5000, debug = True)
