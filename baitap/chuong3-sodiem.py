@@ -1,33 +1,13 @@
+@ -1,3 +1,8 @@
+from flask import Flask, abort, request, url_for, make_response, redirect
+from markupsafe import escape
+
+app = Flask(__name__)
+
 STUDENTS = {
     "23T1020001": {
         "name": "Nguyễn Văn An", 
-        "lop": "K47A",
-        "scores": {"PMMNM": 8.5, "CSDL": 7.0, "MMT": 9.0}
-    },
-    "23T1020002": {
-        "name": "Trần Thị Bình", 
-        "lop": "K47A",
-        "scores": {"PMMNM": 6.0, "CSDL": 5.5, "MMT": 7.0}
-    },
-    "23T1020003": {
-        "name": "Lê Hoàng Cường", 
-        "lop": "K47B",
-        "scores": {"PMMNM": 9.5, "CSDL": 9.0}
-    },
-    "23T1020004": {
-        "name": "Phạm Văn Dũng", 
-        "lop": "K47B",
-        "scores": {"PMMNM": 4.0, "CSDL": 3.5, "MMT": 5.0}
-    },
-    "23T1020005": {
-        "name": "Hoàng Thu Hà", 
-        "lop": "K47A",
-        "scores": {}
-    },
-    "23T1020006": {
-        "name": "Võ Quốc Khánh", 
-        "lop": "K47C",
-        "scores": {"PMMNM": 7.5, "MMT": 8.0}
+@ -31,12 +36,6 @@ STUDENTS = {
     },
 }
 
@@ -40,20 +20,12 @@ app = Flask(__name__)
 def tinh_diem_va_xep_loai(scores):
     if not scores:
         return "-", "-"
-    
-    dtb = sum(scores.values()) / len(scores)
-    
-    if dtb >= 8.5:
-        xep_loai = "Giỏi"
-    elif dtb >= 7.0:
-        xep_loai = "Khá"
-    elif dtb >= 5.0:
-        xep_loai = "Trung bình"
-    else:
-        xep_loai = "Yếu"
+@ -54,10 +53,11 @@ def tinh_diem_va_xep_loai(scores):
         
     return f"{dtb:.2f}", xep_loai
 
+
+# ---------------- CÂU 1: TRANG CHỦ ( / ) ----------------
 @app.route("/")
 def index():
     total_students = len(STUDENTS)
@@ -61,25 +33,12 @@ def index():
     ds_lop = set(st["lop"] for st in STUDENTS.values())
     total_classes = len(ds_lop)
 
-    students_link = url_for("student_list")
-    classes_link = url_for("api_students")
-
-    return f"""
-    <h1>Trang chủ Quản lý Sinh viên</h1>
-    <hr>
-    <h3>Thống kê tổng quan:</h3>
-    <ul>
-        <li><b>Tổng số sinh viên:</b> {total_students} sinh viên</li>
-        <li><b>Tổng số lớp:</b> {total_classes} lớp ({", ".join(sorted(ds_lop))})</li>
-    </ul>
-    
-    <h3>Liên kết điều hướng (được sinh bằng url_for):</h3>
-    <ul>
-        <li><a href="{students_link}">Xem danh sách sinh viên</a></li>
-        <li><a href="{classes_link}">Xem danh sách các lớp</a></li>
+@ -80,35 +80,28 @@ def index():
     </ul>
     """
 
+
+# ---------------- CÂU 2: BẢNG DANH SÁCH ( /students ) ----------------
 @app.route("/students")
 def student_list():
     # 1. Lấy tham số 'lop' từ URL (ví dụ: /students?lop=k47a)
@@ -96,6 +55,7 @@ def student_list():
     # 3. Lặp qua STUDENTS để ghép các hàng <tr> trong bảng
     rows_html = ""
     match_count = 0  # Đếm số sinh viên thỏa mãn bộ lọc
+    match_count = 0
     
     for mssv, info in STUDENTS.items():
         # Kiểm tra lọc theo lớp (không phân biệt hoa thường)
@@ -112,10 +72,7 @@ def student_list():
         rows_html += f"""
         <tr>
             <td><a href="{detail_url}">{mssv}</a></td>
-            <td>{escape(info['name'])}</td>
-            <td>{escape(info['lop'])}</td>
-            <td>{dtb}</td>
-            <td>{xep_loai}</td>
+@ -119,7 +112,6 @@ def student_list():
         </tr>
         """
         
@@ -123,39 +80,108 @@ def student_list():
     if match_count == 0:
         table_content = "<p><b>Không có sinh viên phù hợp.</b></p>"
     else:
-        table_content = f"""
-        <table border="1" cellpadding="8" cellspacing="0">
+@ -149,20 +141,105 @@ def student_list():
+    <p><a href="{url_for('index')}">← Về trang chủ</a></p>
+    """
+
+# Trang chi tiết sinh viên (để tạo đường dẫn MSSV)
+
+# ---------------- CÂU 3: CHI TIẾT SINH VIÊN ( /students/<mssv> ) ----------------
+@app.route("/students/<mssv>")
+def student_detail(mssv):
+    if mssv not in STUDENTS:
+        abort(404, description=f"Không có sinh viên với MSSV = {mssv}.")
+
+    student = STUDENTS.get(mssv)
+    if not student:
+        return "Không tìm thấy sinh viên!", 404
+    return f"Trang chi tiết của sinh viên: <b>{escape(student['name'])}</b> ({mssv})"
+    dtb, xep_loai = tinh_diem_va_xep_loai(student["scores"])
+
+    lop_link = url_for("student_list", lop=student["lop"])
+    export_link = url_for("export_student_csv", mssv=mssv)  # Link tải CSV (Câu 5)
+    short_link = url_for("short_student_detail", mssv=mssv)  # Link rút gọn (Câu 4)
+
+    scores_dict = student["scores"]
+
+    if not scores_dict:
+        scores_table = "<p><i>Chưa có điểm học phần nào.</i></p>"
+    else:
+        scores_rows = ""
+        for mon, diem in scores_dict.items():
+            scores_rows += f"""
+            <tr>
+                <td>{escape(mon)}</td>
+                <td>{diem}</td>
+            </tr>
+            """
+        scores_table = f"""
+        <table border="1" cellpadding="6" cellspacing="0">
             <thead>
                 <tr>
-                    <th>MSSV</th>
-                    <th>Họ tên</th>
-                    <th>Lớp</th>
-                    <th>Điểm TB</th>
-                    <th>Xếp loại</th>
+                    <th>Môn học</th>
+                    <th>Điểm</th>
                 </tr>
             </thead>
             <tbody>
-                {rows_html}
+                {scores_rows}
             </tbody>
         </table>
         """
 
     return f"""
-    <h1>Bảng thông tin sinh viên</h1>
+    <h1>Chi tiết sinh viên</h1>
     <hr>
-    <p><b>Lọc theo lớp:</b> {filter_html}</p>
-    {table_content}
+    <ul>
+        <li><b>MSSV:</b> {mssv}</li>
+        <li><b>Họ tên:</b> {escape(student['name'])}</li>
+        <li><b>Lớp:</b> <a href="{lop_link}">{escape(student['lop'])}</a></li>
+        <li><b>Điểm TB:</b> {dtb}</li>
+        <li><b>Xếp loại:</b> {xep_loai}</li>
+        <li><b>Link rút gọn (Câu 4):</b> <a href="{short_link}">{request.host_url[:-1]}{short_link}</a></li>
+    </ul>
+
+    <h3>Bảng điểm từng học phần:</h3>
+    {scores_table}
+    
     <br>
-    <p><a href="{url_for('index')}">← Về trang chủ</a></p>
+    <!-- Link tải CSV theo yêu cầu Câu 5 -->
+    <p>📥 <a href="{export_link}"><b>Tải bảng điểm (CSV)</b></a></p>
+    <br>
+    <p><a href="{url_for('student_list')}">← Quay lại danh sách sinh viên</a></p>
     """
 
-# Trang chi tiết sinh viên (để tạo đường dẫn MSSV)
-@app.route("/students/<mssv>")
-def student_detail(mssv):
-    student = STUDENTS.get(mssv)
-    if not student:
-        return "Không tìm thấy sinh viên!", 404
-    return f"Trang chi tiết của sinh viên: <b>{escape(student['name'])}</b> ({mssv})"
+
+# ---------------- CÂU 4: LINK RÚT GỌN ( /sv/<mssv> ) ----------------
+@app.route("/sv/<mssv>")
+def short_student_detail(mssv):
+    return redirect(url_for("student_detail", mssv=mssv), code=301)
+
+
+# ---------------- CÂU 5: XUẤT BẢNG ĐIỂM CSV ( /students/<mssv>/export ) ----------------
+@app.route("/students/<mssv>/export")
+def export_student_csv(mssv):
+    # 1. Kiểm tra MSSV nếu không tồn tại -> 404
+    if mssv not in STUDENTS:
+        abort(404, description=f"Không có sinh viên với MSSV = {mssv}.")
+
+    student = STUDENTS[mssv]
+    scores = student["scores"]
+
+    # 2. Xây dựng nội dung file CSV
+    csv_lines = ["hoc_phan,diem"]
+    for mon, diem in scores.items():
+        csv_lines.append(f"{mon},{diem}")
+    
+    csv_content = "\n".join(csv_lines)
+
+    # 3. Tạo HTTP Response để trình duyệt tự động tải xuống
+    response = make_response(csv_content)
+    response.headers["Content-Type"] = "text/csv; charset=utf-8"
+    response.headers["Content-Disposition"] = f"attachment; filename=diem_{mssv}.csv"
+
+    return response
+
 
 # API sinh viên theo yêu cầu đề bài Câu 1
 @app.route("/api/students")
@@ -166,3 +192,5 @@ if __name__ == "__main__":
     app.run(debug=True, port=8000)
 
 
+if __name__ == "__main__":
+    app.run(debug=True, port=8000)
