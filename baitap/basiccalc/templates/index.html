@@ -1,0 +1,17 @@
+<form method="POST">
+    <input step="any" name="a" required>
+    
+    <select name="op">
+        <option>+</option>
+        <option>-</option>
+        <option>*</option>
+        <option>/</option>
+    </select>
+    
+    <input step="any" name="b" required>
+    
+    <button>Calculate</button>
+</form>
+
+{% if result is not none %}Result: {{ result }}{% endif %}
+{% if error %}{{ error }}{% endif %}
