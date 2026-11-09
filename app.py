@@ -11,6 +11,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
+base_dir = os.path.abspath(os.path.dirname(__file__))
+template_dir = os.path.join(base_dir, 'templates')
+static_dir = os.path.join(base_dir, 'static')
+
 app = Flask(__name__)
 app.secret_key = "pmnm_husc_secret_key_2026"
 app.permanent_session_lifetime = timedelta(days=7)

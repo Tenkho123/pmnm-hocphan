@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Tổng hợp Bài tập Học phần{% endblock %}
+
+{% block content %}
+<div class="p-4 p-md-5 mb-4 text-white rounded bg-primary shadow-sm">
+    <div class="col-md-9 px-0">
+        <h1 class="display-5 fw-bold">Cổng Bài Tập & Đồ Án PMNM</h1>
+        <p class="lead my-3">Hệ thống tổng hợp toàn bộ các bài thực hành: Xử lý định tuyến Flask, Template Jinja2, Form Flask-WTF, CSDL SQLite và Báo cáo giấy phép nguồn mở.</p>
+        <a href="{{ url_for('docs') }}" class="btn btn-warning fw-bold">Xem Báo cáo Giấy phép Slide 1 & 2 →</a>
+    </div>
+</div>
+
+<h3 class="border-bottom pb-2 mb-4">Danh mục các ứng dụng thực hành</h3>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <!-- Card 1 -->
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <span class="badge bg-info text-dark mb-2">Chương 3</span>
+                <h5 class="card-title fw-bold">Sổ điểm sinh viên</h5>
+                <p class="card-text text-muted">Quản lý danh sách sinh viên qua bộ nhớ dict, lọc theo mã lớp bằng query string, xem trang chi tiết động với converter.</p>
+                <a href="{{ url_for('sodiem_list') }}" class="btn btn-outline-primary btn-sm">Mở bài tập</a>
+                <a href="{{ url_for('api_sodiem') }}" target="_blank" class="btn btn-outline-secondary btn-sm">API JSON</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <span class="badge bg-success mb-2">Chương 4 & 5</span>
+                <h5 class="card-title fw-bold">Bộ công cụ tính toán</h5>
+                <p class="card-text text-muted">Xử lý form POST/GET, kiểm tra dữ liệu đầu vào an toàn, tự động tính điểm học phần (A/B/C/D/F) và phân loại chỉ số BMI.</p>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('calculator') }}" class="btn btn-outline-success btn-sm">Calc</a>
+                    <a href="{{ url_for('score_calculator') }}" class="btn btn-outline-success btn-sm">Điểm HP</a>
+                    <a href="{{ url_for('bmi_calculator') }}" class="btn btn-outline-success btn-sm">BMI</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <span class="badge bg-danger mb-2">Chương 6</span>
+                <h5 class="card-title fw-bold">CSDL SQLite (CRUD & Stats)</h5>
+                <p class="card-text text-muted">Thực thi SQL trực tiếp: Search LIKE, Filter GPA, Order By, hàm tổng hợp COUNT/AVG/MAX/MIN, INSERT, UPDATE bonus điểm và DELETE.</p>
+                <a href="{{ url_for('students_sql') }}" class="btn btn-outline-danger btn-sm">Mở trang Quản lý SQL</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <span class="badge bg-secondary mb-2">Chương 5 & 8</span>
+                <h5 class="card-title fw-bold">Xác thực & Session (Flask-WTF)</h5>
+                <p class="card-text text-muted">Đăng ký và Đăng nhập với bảo vệ CSRF qua hidden_tag(), kiểm tra trùng lặp tài khoản, lưu phiên đăng nhập với Session.</p>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-sm">Đăng nhập</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-outline-secondary btn-sm">Đăng ký</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <span class="badge bg-dark mb-2">Bài 1 & 2 PDF</span>
+                <h5 class="card-title fw-bold">Lý thuyết & Tranh luận Giấy phép</h5>
+                <p class="card-text text-muted">Nội dung trả lời bài tập về nhà Bài 1 (4 quyền tự do, rẽ nhánh) và Bài 2 (ma trận tương thích, Welte v. D-Link).</p>
+                <a href="{{ url_for('docs') }}" class="btn btn-outline-dark btn-sm">Đọc báo cáo</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
