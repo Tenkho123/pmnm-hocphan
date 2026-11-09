@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Tính Chỉ Số BMI{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 col-md-6 mx-auto">
+    <div class="card-header bg-info text-dark">
+        <h4 class="mb-0">⚖️ Tính chỉ số khối cơ thể (BMI)</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('bmi_calculator') }}">
+            <div class="mb-3">
+                <label class="form-label">Chiều cao (cm):</label>
+                <input type="text" name="a" class="form-control" placeholder="Ví dụ: 170" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Cân nặng (kg):</label>
+                <input type="text" name="b" class="form-control" placeholder="Ví dụ: 65" required>
+            </div>
+            <button type="submit" class="btn btn-info w-100">Kiểm tra thể trạng</button>
+        </form>
+
+        {% if result is not none %}
+            <div class="alert alert-{{ color }} mt-3 text-center fs-5">
+                <strong>{{ result }}</strong>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-danger mt-3 text-center">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
