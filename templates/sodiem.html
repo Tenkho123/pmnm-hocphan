@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Sổ Điểm Sinh Viên{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>📋 Bảng Điểm & Phân Loại Sinh Viên</h2>
+    <a href="{{ url_for('api_sodiem') }}" target="_blank" class="btn btn-outline-secondary btn-sm">Xem JSON API</a>
+</div>
+
+<!-- Bộ lọc Lớp học bằng URL Query -->
+<div class="card p-3 mb-4 shadow-sm">
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+        <span class="fw-bold">Lọc theo lớp:</span>
+        <a href="{{ url_for('sodiem_list') }}" class="btn btn-sm {{ 'btn-primary' if not selected_lop else 'btn-outline-primary' }}">Tất cả</a>
+        {% for lop in ds_lop %}
+            <a href="{{ url_for('sodiem_list', lop=lop) }}" class="btn btn-sm {{ 'btn-primary' if selected_lop == lop else 'btn-outline-primary' }}">
+                {{ lop }}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Bảng hiển thị -->
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0 align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>MSSV</th>
+                        <th>Họ và Tên</th>
+                        <th>Lớp</th>
+                        <th>Điểm TB</th>
+                        <th>Xếp Loại</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mssv, info in students.items() %}
+                    <tr>
+                        <td><strong>{{ mssv }}</strong></td>
+                        <td>{{ info.name }}</td>
+                        <td><span class="badge bg-secondary">{{ info.lop }}</span></td>
+                        <td>
+                            {% if info.dtb is not none %}
+                                <span class="fw-bold">{{ info.dtb }}</span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if info.xep_loai == 'Giỏi' %}
+                                <span class="badge bg-success">Giỏi</span>
+                            {% elif info.xep_loai == 'Khá' %}
+                                <span class="badge bg-info text-dark">Khá</span>
+                            {% elif info.xep_loai == 'Trung bình' %}
+                                <span class="badge bg-warning text-dark">Trung bình</span>
+                            {% elif info.xep_loai == 'Yếu' %}
+                                <span class="badge bg-danger">Yếu</span>
+                            {% else %}
+                                <span class="badge bg-light text-muted">{{ info.xep_loai }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('sodiem_detail', mssv=mssv) }}" class="btn btn-sm btn-outline-info">Chi tiết</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-muted">Không tìm thấy sinh viên nào trong lớp này.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

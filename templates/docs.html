@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Báo Cáo Lý Thuyết & Pháp Lý Mã Nguồn Mở{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm p-4 border-0 mb-4">
+    <h2 class="fw-bold border-bottom pb-2">📖 Tổng Hợp Bài Tập Lý Thuyết (Bài 1 & Bài 2)</h2>
+    
+    <!-- BÀI 1 -->
+    <h4 class="mt-4 text-primary">Bài 1: Tổng quan Phần mềm Tự do & Mã nguồn Mở</h4>
+    <div class="accordion mb-4" id="accBai1">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
+                    1. Bốn quyền tự do cốt lõi của FSF (Free Software Foundation)
+                </button>
+            </h2>
+            <div id="c1" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <ul>
+                        <li><strong>Tự do 0:</strong> Quyền chạy chương trình vì bất kỳ mục đích nào.</li>
+                        <li><strong>Tự do 1:</strong> Quyền nghiên cứu cách chương trình hoạt động và sửa đổi nó (yêu cầu bắt buộc phải có mã nguồn).</li>
+                        <li><strong>Tự do 2:</strong> Quyền phân phối lại bản sao để giúp đỡ cộng đồng.</li>
+                        <li><strong>Tự do 3:</strong> Quyền phân phối các bản đã sửa đổi cho người khác (yêu cầu có mã nguồn).</li>
+                    </ul>
+                    <div class="alert alert-info">Khẩu hiệu: <em>"Free as in freedom, not as in free beer"</em> (Tự do ngôn luận chứ không phải bia miễn phí).</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
+                    2. Phân tích hiện tượng Rẽ nhánh (Forking): MySQL & MariaDB
+                </button>
+            </h2>
+            <div id="c2" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    Khi tập đoàn Oracle thâu tóm Sun Microsystems (đơn vị sở hữu MySQL), cộng đồng lo ngại Oracle sẽ làm giảm tính mở và thương mại hóa MySQL. Tác giả chính Michael "Monty" Widenius đã tách (fork) mã nguồn theo giấy phép GPL để tạo ra <strong>MariaDB</strong>. Nhờ nguyên tắc của GPL, Oracle không thể thu hồi mã nguồn đã mở, đảm bảo MariaDB luôn tự do và phát triển mạnh mẽ cho đến nay.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BÀI 2 -->
+    <h4 class="mt-4 text-primary">Bài 2: Giấy phép Nguồn mở & Vấn đề Pháp lý</h4>
+    <div class="accordion mb-4" id="accBai2">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
+                    1. Ba nhóm giấy phép nguồn mở chính
+                </button>
+            </h2>
+            <div id="c3" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <ul>
+                        <li><strong>Copyleft mạnh (GPL, AGPL):</strong> Buộc toàn bộ sản phẩm phái sinh phân phối ra ngoài phải công khai mã nguồn theo cùng giấy phép.</li>
+                        <li><strong>Copyleft yếu (LGPL, MPL 2.0):</strong> Chỉ bắt buộc công khai phần tệp hoặc thư viện bị chỉnh sửa, cho phép liên kết với mã nguồn đóng.</li>
+                        <li><strong>Dễ dãi - Permissive (MIT, BSD, Apache 2.0):</strong> Cho phép đóng nguồn thương mại, yêu cầu duy nhất là giữ thông báo bản quyền gốc.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">
+                    2. Vụ kiện vi phạm giấy phép nổi tiếng: Welte v. D-Link (Đức, 2006)
+                </button>
+            </h2>
+            <div id="c4" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    Harald Welte (dự án gpl-violations.org) kiện công ty D-Link vì sử dụng nhân Linux trong các thiết bị mạng router mà không cung cấp mã nguồn theo giấy phép GPL. Tòa án Đức đã phán quyết D-Link vi phạm bản quyền tác giả và buộc họ phải công khai toàn bộ mã nguồn firmware hoặc ngừng bán thiết bị tại Đức. Vụ kiện chứng minh: <strong>Giấy phép nguồn mở có đầy đủ giá trị pháp lý và ràng buộc thực tế trước tòa.</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

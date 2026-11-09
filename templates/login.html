@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Đăng nhập{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 col-md-4 mx-auto">
+    <div class="card-header bg-dark text-white">
+        <h4 class="mb-0">Đăng nhập</h4>
+    </div>
+    <div class="card-body">
+        <p class="text-muted small">Tài khoản demo: <code>admin</code> | Mật khẩu: <code>123</code></p>
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="mb-3">
+                <label class="form-label">Tên tài khoản</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Mật khẩu</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="remember" id="rem">
+                <label class="form-check-label" for="rem">Ghi nhớ đăng nhập</label>
+            </div>
+            <button type="submit" class="btn btn-dark w-100">Đăng nhập</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý Sinh viên - SQLite{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold">🎓 Quản Lý Sinh Viên Với SQLite</h2>
+    <p class="text-muted">Áp dụng trực tiếp câu lệnh SQL: SELECT với LIKE, WHERE, ORDER BY, hàm tổng hợp COUNT/AVG/MAX/MIN, INSERT, UPDATE, DELETE.</p>
+</div>
+
+<!-- 1. BẢNG THỐNG KÊ SQL AGGREGATES -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card text-center p-3 shadow-sm border-start border-primary border-4">
+            <div class="fs-4 fw-bold text-primary">{{ stats.total }}</div>
+            <div class="small text-muted">Tổng sinh viên</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card text-center p-3 shadow-sm border-start border-success border-4">
+            <div class="fs-4 fw-bold text-success">{{ stats.avg }}</div>
+            <div class="small text-muted">Điểm TB (AVG)</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card text-center p-3 shadow-sm border-start border-warning border-4">
+            <div class="fs-4 fw-bold text-warning">{{ stats.max }}</div>
+            <div class="small text-muted">GPA Cao nhất (MAX)</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card text-center p-3 shadow-sm border-start border-danger border-4">
+            <div class="fs-4 fw-bold text-danger">{{ stats.min }}</div>
+            <div class="small text-muted">GPA Thấp nhất (MIN)</div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. FORM TÌM KIẾM, LỌC VÀ SẮP XẾP -->
+<div class="card p-3 mb-4 shadow-sm border-0">
+    <form method="GET" action="{{ url_for('students_sql') }}">
+        <div class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label small fw-bold">Tìm kiếm (Tên/MSSV):</label>
+                <input type="text" name="search" class="form-control form-control-sm" value="{{ search_query }}" placeholder="Ví dụ: An, Nam, 23T...">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-bold">GPA tối thiểu (>=):</label>
+                <input type="number" step="0.1" name="min_gpa" class="form-control form-control-sm" value="{{ min_gpa }}" placeholder="Ví dụ: 7.0">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-bold">Sắp xếp theo:</label>
+                <select name="sort" class="form-select form-select-sm">
+                    <option value="name_asc" {% if sort_option == 'name_asc' %}selected{% endif %}>Tên (A → Z)</option>
+                    <option value="name_desc" {% if sort_option == 'name_desc' %}selected{% endif %}>Tên (Z → A)</option>
+                    <option value="gpa_desc" {% if sort_option == 'gpa_desc' %}selected{% endif %}>GPA giảm dần</option>
+                    <option value="gpa_asc" {% if sort_option == 'gpa_asc' %}selected{% endif %}>GPA tăng dần</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex gap-1">
+                <button type="submit" class="btn btn-primary btn-sm flex-grow-1">Lọc</button>
+                <a href="{{ url_for('students_sql') }}" class="btn btn-secondary btn-sm">Đặt lại</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 3. FORM THÊM SINH VIÊN (INSERT) -->
+<div class="card p-3 mb-4 shadow-sm border-0">
+    <h6 class="fw-bold text-success mb-2">+ Thêm mới sinh viên</h6>
+    <form method="POST" action="{{ url_for('add_student_sql') }}">
+        <div class="row g-2">
+            <div class="col-md-3">
+                <input type="text" name="mssv" class="form-control form-control-sm" placeholder="MSSV: 23T1020300" required>
+            </div>
+            <div class="col-md-5">
+                <input type="text" name="name" class="form-control form-control-sm" placeholder="Họ và tên" required>
+            </div>
+            <div class="col-md-2">
+                <input type="number" step="0.1" min="0" max="10" name="gpa" class="form-control form-control-sm" placeholder="GPA: 8.0" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success btn-sm w-100">Lưu vào DB</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 4. DANH SÁCH BẢNG -->
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>MSSV</th>
+                        <th>Họ và Tên</th>
+                        <th>Điểm GPA</th>
+                        <th class="text-end pe-3">Hành động SQL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for st in students %}
+                    <tr>
+                        <td><strong>{{ st.mssv }}</strong></td>
+                        <td>{{ st.name }}</td>
+                        <td><span class="badge bg-primary fs-6">{{ st.gpa }}</span></td>
+                        <td class="text-end pe-3">
+                            <!-- UPDATE bonus +0.5 -->
+                            <form method="POST" action="{{ url_for('quick_bonus') }}" class="d-inline">
+                                <input type="hidden" name="mssv" value="{{ st.mssv }}">
+                                <button type="submit" class="btn btn-warning btn-sm">+0.5 Điểm</button>
+                            </form>
+                            <!-- DELETE -->
+                            <form method="POST" action="{{ url_for('delete_student_sql') }}" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa sinh viên này?');">
+                                <input type="hidden" name="mssv" value="{{ st.mssv }}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-muted">Không tìm thấy bản ghi nào phù hợp.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

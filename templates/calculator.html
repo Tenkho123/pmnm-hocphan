@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Máy tính số học{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 col-md-6 mx-auto">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">🧮 Máy tính cơ bản</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('calculator') }}">
+            <div class="row g-2 mb-3">
+                <div class="col">
+                    <label class="form-label">Số thứ nhất (a)</label>
+                    <input type="text" name="a" class="form-control" placeholder="Ví dụ: 10.5" required>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label">Phép toán</label>
+                    <select name="op" class="form-select">
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="*">×</option>
+                        <option value="/">÷</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="form-label">Số thứ hai (b)</label>
+                    <input type="text" name="b" class="form-control" placeholder="Ví dụ: 2" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Thực hiện tính</button>
+        </form>
+
+        {% if result is not none %}
+            <div class="alert alert-primary mt-3 text-center fs-5">
+                Kết quả: <strong>{{ result }}</strong>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-danger mt-3 text-center">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

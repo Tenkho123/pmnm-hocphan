@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Tính Điểm Học Phần{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 col-md-6 mx-auto">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">📊 Tính điểm học phần & Quy đổi hệ chữ</h4>
+    </div>
+    <div class="card-body">
+        <p class="text-muted small">Công thức: ĐHP = (CC × 10% + GK × 30% + CK × 60%). Cột điểm < 1.0 bị điểm liệt (F).</p>
+        <form method="POST" action="{{ url_for('score_calculator') }}">
+            <div class="mb-3">
+                <label class="form-label">Điểm Chuyên cần (10%):</label>
+                <input type="text" name="a" class="form-control" placeholder="Thang điểm 0 - 10" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Điểm Giữa kỳ (30%):</label>
+                <input type="text" name="b" class="form-control" placeholder="Thang điểm 0 - 10" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Điểm Cuối kỳ (60%):</label>
+                <input type="text" name="c" class="form-control" placeholder="Thang điểm 0 - 10" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Tính Điểm Tổng Kết</button>
+        </form>
+
+        {% if result is not none %}
+            <div class="alert alert-success mt-3 text-center fs-5">
+                Điểm HP: <strong>{{ result }}</strong>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-danger mt-3 text-center">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

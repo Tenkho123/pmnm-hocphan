@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Đăng ký tài khoản{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 col-md-5 mx-auto">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Tạo tài khoản mới</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('register') }}">
+            <!-- CSRF Token tự động sinh bởi Flask-WTF -->
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control") }}
+                {% for err in form.username.errors %}
+                    <div class="text-danger small mt-1">{{ err }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-3">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control") }}
+                {% for err in form.email.errors %}
+                    <div class="text-danger small mt-1">{{ err }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-3">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control") }}
+                {% for err in form.password.errors %}
+                    <div class="text-danger small mt-1">{{ err }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-3">
+                {{ form.confirm_password.label(class="form-label") }}
+                {{ form.confirm_password(class="form-control") }}
+                {% for err in form.confirm_password.errors %}
+                    <div class="text-danger small mt-1">{{ err }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-check mb-3">
+                {{ form.accept_terms(class="form-check-input") }}
+                {{ form.accept_terms.label(class="form-check-label") }}
+                {% for err in form.accept_terms.errors %}
+                    <div class="text-danger small mt-1">{{ err }}</div>
+                {% endfor %}
+            </div>
+
+            {{ form.submit(class="btn btn-primary w-100") }}
+        </form>
+    </div>
+</div>
+{% endblock %}
