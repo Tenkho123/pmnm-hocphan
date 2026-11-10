@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-md navbar-custom sticky-top py-2">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+      <span class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded p-1" style="width: 28px; height: 28px;">
+        <i class="bi bi-book-half" style="font-size: 0.95rem;"></i>
+      </span>
+      <span>BookShelf</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item">
+          <a class="nav-link {{ 'active' if request.endpoint == 'dashboard' }}" href="{{ url_for('dashboard') }}">
+            <i class="bi bi-grid me-1"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ 'active' if request.endpoint == 'categories' }}" href="{{ url_for('categories') }}">
+            <i class="bi bi-folder2 me-1"></i> Danh mục
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ 'active' if request.endpoint == 'books' }}" href="{{ url_for('books') }}">
+            <i class="bi bi-collection me-1"></i> Kho Sách
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

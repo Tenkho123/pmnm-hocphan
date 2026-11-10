@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Sửa danh mục{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-bold">Sửa thông tin danh mục</div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Tên danh mục</label>
+                        <input type="text" name="name" class="form-control" value="{{ category.name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô tả</label>
+                        <textarea name="description" class="form-control" rows="3">{{ category.description or '' }}</textarea>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('categories') }}" class="btn btn-secondary">Quay lại</a>
+                        <button type="submit" class="btn btn-success">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

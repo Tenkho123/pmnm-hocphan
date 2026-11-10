@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Cập nhật thông tin sách{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-bold">Sửa thông tin sách</div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Tên sách</label>
+                        <input type="text" name="title" class="form-control" value="{{ book.title }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tác giả</label>
+                        <input type="text" name="author" class="form-control" value="{{ book.author }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Danh mục</label>
+                        <select name="category_id" class="form-select" required>
+                            {% for cat in categories %}
+                            <option value="{{ cat.id }}" {{ 'selected' if cat.id == book.category_id }}>{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label">Năm xuất bản</label>
+                            <input type="number" name="year" class="form-control" value="{{ book.year or '' }}">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Giá tiền (VNĐ)</label>
+                            <input type="number" step="1000" name="price" class="form-control" value="{{ book.price or '' }}">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('books') }}" class="btn btn-secondary">Quay lại</a>
+                        <button type="submit" class="btn btn-success">Cập nhật thay đổi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Tổng quan hệ thống{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Bảng điều khiển</h4>
+        <p class="text-muted small mb-0">Thống kê dữ liệu danh mục và tình trạng kho sách</p>
+    </div>
+    <a href="{{ url_for('books') }}" class="btn btn-sm btn-primary px-3 py-2 fw-medium shadow-sm">
+        <i class="bi bi-plus-lg me-1"></i> Thêm sách mới
+    </a>
+</div>
+
+<!-- Hai thẻ KPI thiết kế theo phong cách hiện đại -->
+<div class="row g-3 mb-4">
+    <div class="col-sm-6">
+        <div class="card-modern stat-card">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-label">Tổng danh mục</div>
+                    <div class="stat-value">{{ total_categories }}</div>
+                </div>
+                <div class="stat-icon" style="background-color: #f1f5f9; color: #475569;">
+                    <i class="bi bi-folder"></i>
+                </div>
+            </div>
+            <div class="mt-3 pt-2 border-top small">
+                <a href="{{ url_for('categories') }}" class="text-decoration-none text-muted fw-medium d-inline-flex align-items-center">
+                    Quản lý danh mục <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card-modern stat-card">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-label">Tổng số đầu sách</div>
+                    <div class="stat-value">{{ total_books }}</div>
+                </div>
+                <div class="stat-icon" style="background-color: #eff6ff; color: #2563eb;">
+                    <i class="bi bi-journal-text"></i>
+                </div>
+            </div>
+            <div class="mt-3 pt-2 border-top small">
+                <a href="{{ url_for('books') }}" class="text-decoration-none text-muted fw-medium d-inline-flex align-items-center">
+                    Xem toàn bộ kho sách <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Danh sách sách mới -->
+    <div class="col-lg-8">
+        <div class="card-modern">
+            <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                <span class="fw-semibold small text-uppercase text-muted">Sách mới nhập gần đây</span>
+                <a href="{{ url_for('books') }}" class="small text-decoration-none">Tất cả</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-modern">
+                    <thead>
+                        <tr>
+                            <th>Tên sách</th>
+                            <th>Tác giả</th>
+                            <th>Danh mục</th>
+                            <th class="text-end">Đơn giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in recent_books %}
+                        <tr>
+                            <td>
+                                <span class="fw-semibold text-dark">{{ b.title }}</span>
+                            </td>
+                            <td class="text-muted">{{ b.author }}</td>
+                            <td><span class="badge-soft">{{ b.category_name }}</span></td>
+                            <td class="text-end fw-semibold text-secondary">{{ b.price|vnd }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">Chưa có cuốn sách nào.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phân bố theo thể loại -->
+    <div class="col-lg-4">
+        <div class="card-modern">
+            <div class="p-3 border-bottom">
+                <span class="fw-semibold small text-uppercase text-muted">Phân bố theo danh mục</span>
+            </div>
+            <div class="p-2">
+                {% for item in category_stats %}
+                <div class="d-flex justify-content-between align-items-center p-2 rounded hover-bg">
+                    <a href="{{ url_for('books', category_id=item.id) }}" class="text-decoration-none text-dark fw-medium small">
+                        {{ item.name }}
+                    </a>
+                    <span class="badge-soft-primary rounded-pill px-2 py-1 small">
+                        {{ item.book_count }} cuốn
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

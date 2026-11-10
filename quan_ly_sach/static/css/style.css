@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --app-bg: #f8fafc;
+    --card-border: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --primary-color: #2563eb;
+    --primary-soft: #eff6ff;
+}
+
+body {
+    background-color: var(--app-bg);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.01em;
+}
+
+/* Navbar tối giản & tinh tế */
+.navbar-custom {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.navbar-custom .navbar-brand {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar-custom .nav-link {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+}
+
+.navbar-custom .nav-link:hover {
+    color: var(--text-main);
+    background-color: #f1f5f9;
+}
+
+.navbar-custom .nav-link.active {
+    color: var(--primary-color) !important;
+    font-weight: 600;
+    background-color: var(--primary-soft);
+}
+
+/* Card hiện đại: viền siêu mảnh, không đổ bóng rẻ tiền */
+.card-modern {
+    background: #ffffff;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* Thẻ thống kê KPI */
+.stat-card {
+    padding: 1.25rem 1.5rem;
+}
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 1.25rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.2;
+    margin-top: 4px;
+}
+
+/* Bảng dữ liệu chuyên nghiệp */
+.table-modern {
+    margin-bottom: 0;
+}
+
+.table-modern th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background-color: #fafbfc;
+    border-bottom: 1px solid var(--card-border);
+    padding: 0.85rem 1.25rem;
+}
+
+.table-modern td {
+    padding: 0.95rem 1.25rem;
+    vertical-align: middle;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.table-modern tr:last-child td {
+    border-bottom: none;
+}
+
+.table-modern tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* Badge màu dịu mắt (soft badge) thay vì màu cờ */
+.badge-soft {
+    background-color: #f1f5f9;
+    color: #475569;
+    font-weight: 500;
+    font-size: 0.78rem;
+    padding: 0.35em 0.75em;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.badge-soft-primary {
+    background-color: var(--primary-soft);
+    color: var(--primary-color);
+    border: 1px solid #dbeafe;
+}
